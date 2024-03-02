@@ -1,8 +1,9 @@
-import {Await, NavLink} from '@remix-run/react';
+import {Await, Link, NavLink} from '@remix-run/react';
 import {Suspense} from 'react';
 import type {HeaderQuery} from 'storefrontapi.generated';
 import type {LayoutProps} from './Layout';
 import {useRootLoaderData} from '~/root';
+import {ChevronDown} from '~/icons/chevron-down';
 
 type HeaderProps = Pick<LayoutProps, 'header' | 'cart' | 'isLoggedIn'>;
 
@@ -20,8 +21,28 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
         viewport="desktop"
         primaryDomainUrl={header.shop.primaryDomain.url}
       />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      {
+        //<HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      }
+      <div className="ml-auto flex gap-3  items-center">
+        <ChangeLang />
+        <Link
+          to={'/account/login'}
+          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full shadow-sm font-semibold"
+        >
+          Login
+        </Link>
+      </div>
     </header>
+  );
+}
+
+function ChangeLang() {
+  return (
+    <div className="bg-gray-50 hover:bg-gray-200 p-2 shadow-sm rounded-full flex gap-1 justify-center items-center text-black font-semibold px-4">
+      <button>English</button>
+      <ChevronDown width={20} height={20} />
+    </div>
   );
 }
 

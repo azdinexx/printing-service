@@ -23,9 +23,28 @@ export async function loader({context}: LoaderFunctionArgs) {
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
+    <div className="home flex w-full flex-col gap-10 max-w-6xl mx-auto ">
+      <div className="relative overflow-hidden h-[200px] bg-gray-50 shadow rounded-3xl p-10 mt-20">
+        <img
+          src="/header.png"
+          className="absolute top-0 left-0 object-cover"
+          alt=""
+        />
+      </div>
+      <h1 className="text-3xl text-center">Print From Anywhere</h1>
+      <section className="flex justify-between">
+        <div className="flex flex-col gap-3">
+          <Link to={'/account/login'}>
+            <button className="p-4 shadow-sm bg-gray-50 rounded-3xl font-semibold">
+              Login
+            </button>
+          </Link>
+          <button className="p-4  rounded-3xl ">Sign up</button>
+        </div>
+        <button className="py-4 px-7 bg-gray-50 font-semibold rounded-3xl h-fit shadow-sm">
+          continue as a guest
+        </button>
+      </section>
     </div>
   );
 }

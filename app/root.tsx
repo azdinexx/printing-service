@@ -21,6 +21,7 @@ import type {CustomerAccessToken} from '@shopify/hydrogen/storefront-api-types';
 import favicon from '../public/favicon.svg';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
+import tailwindcss from './styles/tailwind.css';
 import {Layout} from '~/components/Layout';
 
 /**
@@ -48,6 +49,7 @@ export function links() {
   return [
     {rel: 'stylesheet', href: resetStyles},
     {rel: 'stylesheet', href: appStyles},
+    {rel: 'stylesheet', href: tailwindcss},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -119,7 +121,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-gray-100">
         <Layout {...data}>
           <Outlet />
         </Layout>
