@@ -6,7 +6,7 @@ import type {
   ActionFunction,
   LoaderFunctionArgs,
 } from '@remix-run/server-runtime';
-import {MetaFunction} from '@shopify/remix-oxygen';
+import type {MetaFunction} from '@shopify/remix-oxygen';
 type ActionResponse = {
   error: string | null;
   newCustomer:
@@ -17,7 +17,7 @@ type ActionResponse = {
 export async function loader({context}: LoaderFunctionArgs) {
   const customerAccessToken = await context.session.get('customerAccessToken');
   if (customerAccessToken) {
-    return redirect('/dashboard');
+    return redirect('/account/orders');
   }
   return json({});
 }
@@ -90,7 +90,7 @@ export const action: ActionFunction = async ({request, context}) => {
         status: 302,
         headers: {
           'Set-Cookie': await session.commit(),
-          Location: '/dashboard',
+          Location: '/account/orders',
         },
       },
     );

@@ -12,7 +12,7 @@ export const meta = () => {
 };
 export async function loader({context}: LoaderFunctionArgs) {
   if (await context.session.get('customerAccessToken')) {
-    return redirect('/dashboard');
+    return redirect('/account/orders');
   }
   return json({});
 }
@@ -50,7 +50,7 @@ export async function action({request, context}: ActionFunctionArgs) {
     const {customerAccessToken} = customerAccessTokenCreate;
     session.set('customerAccessToken', customerAccessToken);
 
-    return redirect('/dashboard', {
+    return redirect('/account/orders', {
       headers: {
         'Set-Cookie': await session.commit(),
       },
