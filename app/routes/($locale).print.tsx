@@ -10,7 +10,7 @@ function Print() {
         <div className="flex justify-between  rounded-md p-2 gap-10">
           <FirstColumn />
           <section className="flex flex-col gap-4 w-full">
-            <div className="bg-gray-200 p-2 rounded-lg shadow z-10">
+            <div className="bg-slate-50 p-2 rounded-lg shadow z-10">
               <p className="text-xs font-bold py-1 border-b border-gray-200 text-gray-700 ">
                 Details
               </p>
@@ -72,7 +72,7 @@ function Print() {
               </ul>
             </div>
           </section>
-          <div className="w-full">
+          <div className="relative w-full border-x px-2 flex flex-col justify-center after:absolute after:top-10 after:-right-[5%] after:w-[110%] after:h-1 after:bg-transparent after:border-b  before:absolute before:bottom-10 before:-right-[5%] before:w-[110%] before:h-1 before:bg-transparent before:border-b before:border-gray-300 border-gray-300 after:border-gray-300">
             <div className="bg-gray-200/50 p-2 rounded-lg shadow">
               <p className="text-sm py-1 border-b border-gray-200 text-gray-700 ">
                 Printer
@@ -134,7 +134,7 @@ export default Print;
 
 const FirstColumn = () => {
   return (
-    <div className="flex flex-col gap-3  w-full bg-gray-200 shadow p-2 rounded-lg relative after:absolute after:top-8 after:-right-12 after:w-14 after:h-14  after:border-b-2 after:rounded-b-full after:border-l-2 after:border-gray-300 after:-z-10 before:absolute before:top-[12rem] before:rotate-3 before:-right-12 before:w-14 before:h-14  before:border-b-2 before:rounded-b-full before:border-l-2 before:border-gray-300 before:-z-10">
+    <div className="flex flex-col gap-3  w-full bg-gray-200 shadow p-2 rounded-lg relative after:absolute after:top-8 after:-right-12 after:w-14 after:h-14  after:border-b-2 after:rounded-b-full after:border-l-2 after:border-gray-300 after:-z-10 before:absolute before:top-[12rem] before:rotate-3 before:-right-12 before:w-14 before:h-14  before:border-b-2 before:rounded-b-full before:border-l-2 before:border-gray-200 before:-z-10">
       <h1 className="font-semibold pb-1 border-b border-gray-300 mb-1">
         Printing Service
       </h1>
