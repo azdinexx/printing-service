@@ -134,7 +134,7 @@ export default Print;
 
 const FirstColumn = () => {
   return (
-    <div className="flex flex-col gap-3  w-full bg-gray-200 shadow p-2 rounded-lg relative after:absolute after:top-8 after:-right-12 after:w-14 after:h-14  after:border-b-2 after:rounded-b-full after:border-l-2 after:border-gray-300 after:-z-10 before:absolute before:top-[12rem] before:rotate-3 before:-right-12 before:w-14 before:h-14  before:border-b-2 before:rounded-b-full before:border-l-2 before:border-gray-200 before:-z-10">
+    <div className="flex flex-col gap-3  w-full bg-gray-200 shadow p-2 rounded-lg border-gray-300 border-r-2 relative after:absolute after:top-8 after:-right-12 after:w-14 after:h-14  after:border-b-2 after:rounded-b-full after:border-l-2 after:border-gray-300 after:-z-10 before:absolute before:top-[12rem] before:rotate-3 before:-right-12 before:w-14 before:h-14  before:border-b-2 before:rounded-b-full before:border-l-2 before:border-gray-200 before:-z-10">
       <h1 className="font-semibold pb-1 border-b border-gray-300 mb-1">
         Printing Service
       </h1>

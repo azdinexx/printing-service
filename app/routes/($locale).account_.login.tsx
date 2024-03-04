@@ -12,7 +12,7 @@ export const meta = () => {
 };
 export async function loader({context}: LoaderFunctionArgs) {
   if (await context.session.get('customerAccessToken')) {
-    return redirect('/account/orders');
+    return redirect('/print');
   }
   return json({});
 }
@@ -68,7 +68,7 @@ function LogIn() {
   const error = data?.error || null;
 
   return (
-    <div className=" flex justify-center items-center border border-black  ">
+    <div className=" flex justify-center items-center k  ">
       <div className="mx-auto mt-20 mb-36">
         <h1 className="text-4xl font-bold">Log In</h1>
         <p className="text-stone-500 mb-4 max-w-xs">

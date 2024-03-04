@@ -23,7 +23,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="home flex w-full flex-col gap-10 max-w-6xl mx-auto ">
+    <div className="home flex w-full flex-col gap-10  ">
       <div className="relative overflow-hidden h-[200px] bg-gray-50 shadow rounded-3xl p-10 mt-20">
         <img
           src="/header.png"

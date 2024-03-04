@@ -26,6 +26,14 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
       }
       <div className="ml-auto flex gap-3  items-center">
         <ChangeLang />
+
+        <Link
+          to={'/account/logout'}
+          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full shadow-sm font-semibold"
+        >
+          Logout
+        </Link>
+
         <Link
           to={'/account/login'}
           className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full shadow-sm font-semibold"
