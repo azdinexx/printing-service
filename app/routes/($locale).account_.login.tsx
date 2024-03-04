@@ -50,7 +50,7 @@ export async function action({request, context}: ActionFunctionArgs) {
     const {customerAccessToken} = customerAccessTokenCreate;
     session.set('customerAccessToken', customerAccessToken);
 
-    return redirect('/account/orders', {
+    return redirect('/print', {
       headers: {
         'Set-Cookie': await session.commit(),
       },
@@ -119,7 +119,7 @@ function LogIn() {
         </Form>
         <p className="py-4">
           Don&apos;t have an account?{' '}
-          <Link className="text-blue-500" to="/signup">
+          <Link className="text-blue-500" to="/account/signup">
             Sign Up
           </Link>
         </p>

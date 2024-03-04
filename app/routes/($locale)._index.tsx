@@ -41,9 +41,12 @@ export default function Homepage() {
           </Link>
           <button className="p-4  rounded-3xl ">Sign up</button>
         </div>
-        <button className="py-4 px-7 bg-gray-50 font-semibold rounded-3xl h-fit shadow-sm">
+        <Link
+          to={'/print'}
+          className="py-4 px-7 bg-gray-50 font-semibold rounded-3xl h-fit shadow-sm"
+        >
           continue as a guest
-        </button>
+        </Link>
       </section>
     </div>
   );

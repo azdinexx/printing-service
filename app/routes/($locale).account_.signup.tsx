@@ -90,7 +90,7 @@ export const action: ActionFunction = async ({request, context}) => {
         status: 302,
         headers: {
           'Set-Cookie': await session.commit(),
-          Location: '/account/orders',
+          Location: '/print',
         },
       },
     );
@@ -174,7 +174,7 @@ function SignUp() {
         </Form>
         <p className="py-4">
           Already signed Up?{' '}
-          <Link className="text-blue-500" to="/login">
+          <Link className="text-blue-500" to="/account/login">
             Log in
           </Link>
         </p>
