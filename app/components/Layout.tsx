@@ -13,6 +13,7 @@ import {
   PredictiveSearchForm,
   PredictiveSearchResults,
 } from '~/components/Search';
+import {Toaster} from 'sonner';
 
 export type LayoutProps = {
   cart: Promise<CartApiQueryFragment | null>;
@@ -36,6 +37,7 @@ export function Layout({
       <MobileMenuAside menu={header?.menu} shop={header?.shop} />
       {header && <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />}
       <main className="max-w-6xl mx-auto w-full">{children}</main>
+      <Toaster richColors position="top-center" />
       {/*
         <Suspense>
         <Await resolve={footer}>

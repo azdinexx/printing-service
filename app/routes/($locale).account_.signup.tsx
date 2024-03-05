@@ -7,6 +7,8 @@ import type {
   LoaderFunctionArgs,
 } from '@remix-run/server-runtime';
 import type {MetaFunction} from '@shopify/remix-oxygen';
+import {useEffect} from 'react';
+import {toast} from 'sonner';
 type ActionResponse = {
   error: string | null;
   newCustomer:
@@ -17,7 +19,7 @@ type ActionResponse = {
 export async function loader({context}: LoaderFunctionArgs) {
   const customerAccessToken = await context.session.get('customerAccessToken');
   if (customerAccessToken) {
-    return redirect('/account/orders');
+    return redirect('/print');
   }
   return json({});
 }
@@ -31,6 +33,10 @@ export const action: ActionFunction = async ({request, context}) => {
   const form = await request.formData();
   const email = String(form.has('email') ? form.get('email') : '');
   const password = form.has('password') ? String(form.get('password')) : null;
+  const firstName = form.has('firstName')
+    ? String(form.get('firstName'))
+    : null;
+  const lastName = form.has('lastName') ? String(form.get('lastName')) : null;
   const passwordConfirm = form.has('passwordConfirm')
     ? String(form.get('passwordConfirm'))
     : null;
@@ -38,19 +44,19 @@ export const action: ActionFunction = async ({request, context}) => {
   const validPasswords =
     password && passwordConfirm && password === passwordConfirm;
 
-  const validInputs = Boolean(email && password);
+  const validInputs = Boolean(email && password && lastName && firstName);
   try {
     if (!validPasswords) {
       throw new Error('Passwords do not match');
     }
 
     if (!validInputs) {
-      throw new Error('Please provide both an email and a password.');
+      throw new Error('Please provide all fields.');
     }
 
     const {customerCreate} = await storefront.mutate(CUSTOMER_CREATE_MUTATION, {
       variables: {
-        input: {email, password},
+        input: {email, password, lastName, firstName},
       },
     });
 
@@ -110,67 +116,95 @@ function SignUp() {
   const data = useActionData<ActionResponse>();
   const error = data?.error || null;
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
   return (
-    <div className="grid place-items-center  grid-cols-1 grid-rows-1 mb-36 mt-20">
+    <div className="flex justify-center items-center mt-20">
       <div>
         <h1 className="text-4xl font-bold">Sign Up</h1>
-        <p className="text-stone-500 mb-4 max-w-xs">
+        <p className="text-gray-500 mb-4 max-w-xs">
           Welcome! Explore the future with us
         </p>
-        {error ? (
-          <p className="bg-yellow-500">
-            <mark>
-              <small>{error}</small>
-            </mark>
-          </p>
-        ) : (
-          <br />
-        )}
-        <Form method="POST" className="flex flex-col gap-4 max-w-sm">
-          <label htmlFor="email">Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="Email address"
-            aria-label="Email address"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-            className="pl-4 p-2 rounded-md"
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Password"
-            aria-label="Password"
-            minLength={8}
-            required
-            className="pl-4 p-2 rounded-md"
-          />
 
-          <label htmlFor="pwd">Re-enter password</label>
-          <input
-            id="passwordConfirm"
-            name="passwordConfirm"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Re-enter password"
-            aria-label="Re-enter password"
-            minLength={8}
-            required
-            className="pl-4 p-2 rounded-md"
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-2 rounded-md"
-          >
-            Sign Up
-          </button>
+        <Form method="POST">
+          <div className="border-x flex flex-col px-3 py-6 gap-4 relative after:absolute after:top-3 after:-right-[5%] after:w-[110%] after:h-1 after:bg-transparent after:border-b  before:absolute before:bottom-3 before:-right-[5%] before:w-[110%] before:h-1 before:bg-transparent before:border-b before:border-gray-300 border-gray-300 after:border-gray-300">
+            <div className="flex gap-4">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="firstName" className="text-sm">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First Name"
+                  aria-label="firstName"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="lastName" className="text-sm">
+                  last Name
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="last Name"
+                  aria-label="lastName"
+                />
+              </div>
+            </div>
+            <label htmlFor="email" className="text-sm">
+              Email address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              placeholder="Email address"
+              aria-label="Email address"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+            />
+            <label htmlFor="password" className="text-sm">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Password"
+              aria-label="Password"
+              minLength={8}
+              required
+            />
+
+            <label htmlFor="pwd" className="text-sm">
+              Re-enter password
+            </label>
+            <input
+              id="passwordConfirm"
+              name="passwordConfirm"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Re-enter password"
+              aria-label="Re-enter password"
+              minLength={8}
+              required
+            />
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-2 rounded-md"
+            >
+              Sign Up
+            </button>
+          </div>
         </Form>
         <p className="py-4">
           Already signed Up?{' '}

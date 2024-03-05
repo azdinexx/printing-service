@@ -1,16 +1,31 @@
-import {Await, Link, NavLink} from '@remix-run/react';
+import {Await, Link, NavLink, useLoaderData} from '@remix-run/react';
 import {Suspense} from 'react';
 import type {HeaderQuery} from 'storefrontapi.generated';
 import type {LayoutProps} from './Layout';
 import {useRootLoaderData} from '~/root';
 import {ChevronDown} from '~/icons/chevron-down';
+import {LoaderFunctionArgs, defer} from '@remix-run/server-runtime';
 
 type HeaderProps = Pick<LayoutProps, 'header' | 'cart' | 'isLoggedIn'>;
 
 type Viewport = 'desktop' | 'mobile';
 
+export async function loader({context}: LoaderFunctionArgs) {
+  const isLoggedInPromise = context.session.get('isLoggedIn');
+
+  return defer(
+    {isLoggedInPromise},
+    {
+      headers: {
+        'Set-Cookie': await context.session.commit(),
+      },
+    },
+  );
+}
+
 export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop, menu} = header;
+  const {isLoggedInPromise} = useLoaderData() as {isLoggedInPromise: boolean};
   return (
     <header className="header">
       <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
@@ -26,20 +41,13 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
       }
       <div className="ml-auto flex gap-3  items-center">
         <ChangeLang />
-
-        <Link
-          to={'/account/logout'}
-          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full shadow-sm font-semibold"
-        >
-          Logout
-        </Link>
-
-        <Link
-          to={'/account/login'}
-          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full shadow-sm font-semibold"
-        >
-          Login
-        </Link>
+        <NavLink prefetch="intent" to="/account">
+          <Suspense fallback="Sign in">
+            <Await resolve={isLoggedInPromise} errorElement="Sign in">
+              {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
+            </Await>
+          </Suspense>
+        </NavLink>
       </div>
     </header>
   );

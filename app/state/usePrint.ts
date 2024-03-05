@@ -1,19 +1,41 @@
 import {create} from 'zustand';
+import {persist} from 'zustand/middleware';
 
-export const usePrint = create((set) => ({
-  printer: 'HP LaserJet 1020',
-  location: 'Room 101',
-  status: 'Ready',
-  pagesPerSide: 1,
-  orientation: 'portrait',
-  color: 'B&W',
-  setPrinter: (printer: string) => set({printer}),
-  setLocation: (location: string) => set({location}),
-  setStatus: (status: string) => set({status}),
-  setPagesPerSide: (pagesPerSide: number) => set({pagesPerSide}),
-  setOrientation: (orientation: string) => set({orientation}),
-  setColor: (color: string) => set({color}),
-  print: () => {
-    console.log('Printing...');
-  },
-}));
+export interface File {
+  name: string;
+  size: number;
+  type: string;
+  lastModified: number;
+  uploaded: boolean;
+  url: string;
+}
+interface Store {
+  files: File[];
+}
+export const useFiles = create(
+  persist<Store>(
+    (set) => ({
+      files: [
+        {
+          name: 'sample.pdf',
+          size: 100,
+          type: 'application/pdf',
+          lastModified: 1627781060000,
+          uploaded: false,
+          url: '',
+        },
+        {
+          name: 'sample.docx',
+          size: 100,
+          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          lastModified: 1627781060000,
+          uploaded: false,
+          url: '',
+        },
+      ],
+    }),
+    {
+      name: 'files',
+    },
+  ),
+);

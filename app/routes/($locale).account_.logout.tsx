@@ -1,10 +1,22 @@
-import {redirect, type ActionFunctionArgs} from '@shopify/remix-oxygen';
+import {LoaderFunctionArgs, redirect} from '@shopify/remix-oxygen';
+import React from 'react';
 
-// if we dont implement this, /account/logout will get caught by account.$.tsx to do login
-export async function loader() {
-  return redirect('/');
+export async function loader({request, context}: LoaderFunctionArgs) {
+  const {session} = context;
+  const customerAccessToken = await session.get('customerAccessToken');
+  const isLoggedIn = Boolean(customerAccessToken?.accessToken);
+  if (isLoggedIn) {
+    session.unset('customerAccessToken');
+    return redirect('/', {
+      headers: {
+        'Set-Cookie': await session.commit(),
+      },
+    });
+  }
+  return {};
+}
+function logout() {
+  return <div>loging out...</div>;
 }
 
-export async function action({context}: ActionFunctionArgs) {
-  return context.customerAccount.logout();
-}
+export default logout;
