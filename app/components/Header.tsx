@@ -1,53 +1,54 @@
-import {Await, Link, NavLink, useLoaderData} from '@remix-run/react';
+import {
+  Await,
+  Link,
+  NavLink,
+  useFetcher,
+  useLoaderData,
+} from '@remix-run/react';
 import {Suspense} from 'react';
 import type {HeaderQuery} from 'storefrontapi.generated';
 import type {LayoutProps} from './Layout';
 import {useRootLoaderData} from '~/root';
 import {ChevronDown} from '~/icons/chevron-down';
-import {LoaderFunctionArgs, defer} from '@remix-run/server-runtime';
 
 type HeaderProps = Pick<LayoutProps, 'header' | 'cart' | 'isLoggedIn'>;
 
 type Viewport = 'desktop' | 'mobile';
 
-export async function loader({context}: LoaderFunctionArgs) {
-  const isLoggedInPromise = context.session.get('isLoggedIn');
-
-  return defer(
-    {isLoggedInPromise},
-    {
-      headers: {
-        'Set-Cookie': await context.session.commit(),
-      },
-    },
-  );
-}
-
 export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop, menu} = header;
-  const {isLoggedInPromise} = useLoaderData() as {isLoggedInPromise: boolean};
+
   return (
     <header className="header">
       <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
         <strong>{shop.name}</strong>
       </NavLink>
+
       <HeaderMenu
         menu={menu}
         viewport="desktop"
         primaryDomainUrl={header.shop.primaryDomain.url}
       />
-      {
-        //<HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
-      }
+
+      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+
       <div className="ml-auto flex gap-3  items-center">
         <ChangeLang />
-        <NavLink prefetch="intent" to="/account">
-          <Suspense fallback="Sign in">
-            <Await resolve={isLoggedInPromise} errorElement="Sign in">
-              {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-            </Await>
-          </Suspense>
-        </NavLink>
+        {isLoggedIn ? (
+          <Link
+            to={'account/logout'}
+            className="bg-gray-50 hover:bg-gray-200 p-2 shadow-sm rounded-full flex gap-1 justify-center items-center text-black font-semibold px-4"
+          >
+            Logout
+          </Link>
+        ) : (
+          <Link
+            to={'account/login'}
+            className="bg-gray-50 hover:bg-gray-200 p-2 shadow-sm rounded-full flex gap-1 justify-center items-center text-black font-semibold px-4"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </header>
   );

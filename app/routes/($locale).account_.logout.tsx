@@ -1,22 +1,21 @@
-import {LoaderFunctionArgs, redirect} from '@shopify/remix-oxygen';
-import React from 'react';
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  redirect,
+} from '@shopify/remix-oxygen';
 
-export async function loader({request, context}: LoaderFunctionArgs) {
+export async function doLogout(context: ActionFunctionArgs['context']) {
   const {session} = context;
-  const customerAccessToken = await session.get('customerAccessToken');
-  const isLoggedIn = Boolean(customerAccessToken?.accessToken);
-  if (isLoggedIn) {
-    session.unset('customerAccessToken');
-    return redirect('/', {
-      headers: {
-        'Set-Cookie': await session.commit(),
-      },
-    });
-  }
-  return {};
-}
-function logout() {
-  return <div>loging out...</div>;
+  session.unset('customerAccessToken');
+
+  // The only file where I have to explicitly type cast i18n to pass typecheck
+  return redirect(`${context.storefront.i18n.pathPrefix}/account/login`, {
+    headers: {
+      'Set-Cookie': await session.commit(),
+    },
+  });
 }
 
-export default logout;
+export async function loader({context}: LoaderFunctionArgs) {
+  return doLogout(context);
+}

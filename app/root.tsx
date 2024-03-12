@@ -16,6 +16,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   type ShouldRevalidateFunction,
+  useFetcher,
 } from '@remix-run/react';
 import type {CustomerAccessToken} from '@shopify/hydrogen/storefront-api-types';
 import favicon from '../public/favicon.svg';
@@ -23,6 +24,7 @@ import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import tailwindcss from './styles/tailwind.css';
 import {Layout} from '~/components/Layout';
+import {CUSTOMER_FRAGMENT} from './graphql/customer-account/CustomerDetailsQuery';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -73,8 +75,9 @@ export const useRootLoaderData = () => {
 export async function loader({context}: LoaderFunctionArgs) {
   const {storefront, customerAccount, cart} = context;
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
-
-  const isLoggedInPromise = customerAccount.isLoggedIn();
+  const [customerAccessToken] = await Promise.all([
+    context.session.get('customerAccessToken'),
+  ]);
   const cartPromise = cart.get();
 
   // defer the footer query (below the fold)
@@ -98,7 +101,7 @@ export async function loader({context}: LoaderFunctionArgs) {
       cart: cartPromise,
       footer: footerPromise,
       header: await headerPromise,
-      isLoggedIn: isLoggedInPromise,
+      isLoggedIn: Boolean(customerAccessToken),
       publicStoreDomain,
     },
     {

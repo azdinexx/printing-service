@@ -56,7 +56,7 @@ export const action: ActionFunction = async ({request, context}) => {
 
     const {customerCreate} = await storefront.mutate(CUSTOMER_CREATE_MUTATION, {
       variables: {
-        input: {email, password, lastName, firstName},
+        input: {email, password, lastName, firstName, acceptsMarketing: true},
       },
     });
 
@@ -129,82 +129,89 @@ function SignUp() {
           Welcome! Explore the future with us
         </p>
 
-        <Form method="POST">
-          <div className="border-x flex flex-col px-3 py-6 gap-4 relative after:absolute after:top-3 after:-right-[5%] after:w-[110%] after:h-1 after:bg-transparent after:border-b  before:absolute before:bottom-3 before:-right-[5%] before:w-[110%] before:h-1 before:bg-transparent before:border-b before:border-gray-300 border-gray-300 after:border-gray-300">
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="firstName" className="text-sm">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  placeholder="First Name"
-                  aria-label="firstName"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="lastName" className="text-sm">
-                  last Name
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  placeholder="last Name"
-                  aria-label="lastName"
-                />
-              </div>
+        <Form method="POST" className="py-5 flex flex-col gap-4 border-y">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-4 w-full">
+              <label htmlFor="firstName" className="text-sm">
+                First Name
+              </label>
+              <input
+                autoFocus
+                type="text"
+                id="firstName"
+                name="firstName"
+                placeholder="First Name"
+                aria-label="firstName"
+              />
             </div>
-            <label htmlFor="email" className="text-sm">
-              Email address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              placeholder="Email address"
-              aria-label="Email address"
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
-            />
-            <label htmlFor="password" className="text-sm">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Password"
-              aria-label="Password"
-              minLength={8}
-              required
-            />
-
-            <label htmlFor="pwd" className="text-sm">
-              Re-enter password
-            </label>
-            <input
-              id="passwordConfirm"
-              name="passwordConfirm"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Re-enter password"
-              aria-label="Re-enter password"
-              minLength={8}
-              required
-            />
-            <button
-              type="submit"
-              className="bg-blue-500 text-white py-2 rounded-md"
-            >
-              Sign Up
-            </button>
+            <div className="flex flex-col gap-4 w-full">
+              <label htmlFor="lastName" className="text-sm">
+                last Name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                placeholder="last Name"
+                aria-label="lastName"
+              />
+            </div>
           </div>
+          <label htmlFor="email" className="text-sm">
+            Email address
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="Email address"
+            aria-label="Email address"
+          />
+          <label htmlFor="password" className="text-sm">
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Password"
+            aria-label="Password"
+            minLength={8}
+            required
+          />
+
+          <label htmlFor="pwd" className="text-sm">
+            Re-enter password
+          </label>
+          <input
+            id="passwordConfirm"
+            name="passwordConfirm"
+            type="password"
+            placeholder="Re-enter password"
+            aria-label="Re-enter password"
+            minLength={8}
+            required
+          />
+          <div className="flex gap-4 items-center">
+            <input
+              type="checkbox"
+              id="acceptsMarketing"
+              name="acceptsMarketing"
+              defaultChecked
+            />
+            <label htmlFor="acceptsMarketing" className="text-sm">
+              I want to receive news, offers and other promotional materials
+            </label>
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 rounded-md"
+          >
+            Sign Up
+          </button>
         </Form>
         <p className="py-4">
           Already signed Up?{' '}

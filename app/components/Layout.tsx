@@ -20,7 +20,7 @@ export type LayoutProps = {
   children?: React.ReactNode;
   footer: Promise<FooterQuery>;
   header: HeaderQuery;
-  isLoggedIn: Promise<boolean>;
+  isLoggedIn: boolean;
 };
 
 export function Layout({
