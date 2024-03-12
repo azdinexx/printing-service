@@ -30,8 +30,6 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
         primaryDomainUrl={header.shop.primaryDomain.url}
       />
 
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
-
       <div className="ml-auto flex gap-3  items-center">
         <ChangeLang />
         {isLoggedIn ? (
