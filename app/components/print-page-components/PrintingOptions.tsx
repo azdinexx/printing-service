@@ -8,7 +8,7 @@ function PrintingOptions() {
         <h2 className="font-bold capitalize">printing Options</h2>
         <ul className="flex flex-col   border-gray-300 capitalize">
           <li className="flex justify-between items-center  ">
-            <span>page per side</span>
+            <span>page per Paper</span>
             <div className="flex gap-2">
               <button
                 title={options.pagesPerSide === 1 ? 'Selected' : ''}

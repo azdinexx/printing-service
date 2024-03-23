@@ -6,11 +6,11 @@ export interface File {
   size: number;
   type: string;
   lastModified: number;
-  uploaded: boolean;
   url: string;
 }
 interface Store {
   files: File[];
+  AddFile: (file: File) => void;
   numberOfPages: number;
   setNumberofPages: (pages: number) => void;
   numberOfCopies: number;
@@ -26,6 +26,7 @@ export const useFiles = create(
   persist<Store>(
     (set) => ({
       files: [] as File[],
+      AddFile: (file) => set((state) => ({files: [...state.files, file]})),
       numberOfPages: 0,
       setNumberofPages: (pages) => {
         if (pages < 0) return;

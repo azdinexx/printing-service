@@ -55,16 +55,9 @@ function DetailsAndFiles() {
             files.map((file, index) => <FileItem file={file} key={index} />)}
           {!files.length && (
             <li>
-              <p className="text-xs text-gray-500">
-                No files uploaded yet. Click on the button below to upload a
-                file.
-              </p>
+              <p className="text-xs text-gray-500">No files uploaded yet.</p>
             </li>
           )}
-          <li className="p-1 text-sm bg-blue-400/70 text-white  rounded-md px-2 flex gap-2">
-            <AddFile height={18} width={18} />
-            <span>Add More Files</span>
-          </li>
         </ul>
       </div>
     </section>
@@ -73,7 +66,7 @@ function DetailsAndFiles() {
 
 const FileItem = ({file}: {file: File}) => {
   return (
-    <li className="p-1 text-sm group hover:bg-gray-300/50 bg-gray-300/30 rounded-md px-2 flex justify-between">
+    <li className="p-1 text-sm group hover:bg-gray-300/50 bg-gray-300/30 rounded-md px-2 flex justify-between items-center">
       <span>{file.name}</span>
       <Cancel
         width={18}
