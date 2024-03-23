@@ -21,4 +21,19 @@ module.exports = {
     v3_relativeSplatpath: true,
     v3_throwAbortReason: true,
   },
+  serverNodeBuiltinsPolyfill: {
+    modules: {
+      crypto: true, // Provide a JSPM polyfill
+      stream: true, // Provide a JSPM polyfill
+      fs: true, // Provide a JSPM polyfill
+      path: true, // Provide a JSPM polyfill
+      buffer: true, // Provide a JSPM polyfill
+      join: true, // Provide a JSPM polyfill
+      os: true, // Provide a JSPM polyfill
+      http2: true, // Provide a JSPM polyfill
+      http: true, // Provide a JSPM polyfill
+      https: true, // Provide a JSPM polyfill
+      child_process: true, // Provide a JSPM polyfill
+    },
+  },
 };

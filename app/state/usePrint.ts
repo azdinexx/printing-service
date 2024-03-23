@@ -11,28 +11,35 @@ export interface File {
 }
 interface Store {
   files: File[];
+  numberOfPages: number;
+  setNumberofPages: (pages: number) => void;
+  numberOfCopies: number;
+  setNumberOfCopies: (copies: number) => void;
+  options: {
+    pagesPerSide: 1 | 2;
+    orientation: 'portrait' | 'landscape';
+    color: 'B&W' | 'Colored';
+  };
+  setOptions: (options: Partial<Store['options']>) => void;
 }
 export const useFiles = create(
   persist<Store>(
     (set) => ({
-      files: [
-        {
-          name: 'sample.pdf',
-          size: 100,
-          type: 'application/pdf',
-          lastModified: 1627781060000,
-          uploaded: false,
-          url: '',
-        },
-        {
-          name: 'sample.docx',
-          size: 100,
-          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          lastModified: 1627781060000,
-          uploaded: false,
-          url: '',
-        },
-      ],
+      files: [] as File[],
+      numberOfPages: 0,
+      setNumberofPages: (pages) => {
+        if (pages < 0) return;
+        set({numberOfPages: pages});
+      },
+      numberOfCopies: 1,
+      setNumberOfCopies: (copies) => set({numberOfCopies: copies}),
+      options: {
+        pagesPerSide: 1,
+        orientation: 'portrait',
+        color: 'B&W',
+      },
+      setOptions: (options) =>
+        set((state) => ({options: {...state.options, ...options}})),
     }),
     {
       name: 'files',

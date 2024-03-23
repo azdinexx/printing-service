@@ -1,5 +1,7 @@
-import {redirect} from '@shopify/remix-oxygen';
+import React from 'react';
 
-export async function loader() {
-  return redirect('/account/orders');
+function Account() {
+  return <div>Account</div>;
 }
+
+export default Account;
